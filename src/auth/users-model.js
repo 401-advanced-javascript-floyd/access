@@ -16,7 +16,7 @@ const users = new mongoose.Schema({
   email: { type: String },
   role: { type: String, default: 'user', enum: ['admin', 'editor', 'user'] },
   //role:{type: String, required: true, default:'user', enum['admin', 'editor', 'user']}
-});
+},{toObject: {virtuals: true}, toJSON:{ virtuals: true}});
 users.virtual('acl',{
   ref: 'roles',
   localField: 'role',
