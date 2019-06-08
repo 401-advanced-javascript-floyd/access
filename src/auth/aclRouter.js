@@ -11,7 +11,8 @@ aclRouter.get('/public-stuff', (req, res, next) => {
   res.status(200).send('ok from public-stuff')
 });
 aclRouter.get('/hidden-stuff', auth(), (req, res, next) => {
-  res.status(200).send('hidden-stuff should only work logedin')
+  console.log('hidden stuff line 14')
+  res.status(200).send('hidden-stuff should only work loggedin')
 });
 
 aclRouter.get('/something-to-read', auth(), (req, res, next) => {

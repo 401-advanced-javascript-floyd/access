@@ -7,8 +7,8 @@ module.exports = (capability) => {
   return (req, res, next) => {
 
     try {
+      console.log(req.headers.authorization)
       let [authType, authString] = req.headers.authorization.split(/\s+/);
-
       switch (authType.toLowerCase()) {
       case 'basic':
         return _authBasic(authString);
@@ -27,8 +27,8 @@ module.exports = (capability) => {
       let base64Buffer = Buffer.from(str, 'base64'); // <Buffer 01 02 ...>
       let bufferString = base64Buffer.toString();    // john:mysecret
       let [username, password] = bufferString.split(':'); // john='john'; mysecret='mysecret']
-      let auth = {username, password}; // { username:'john', password:'mysecret' }
 
+      let auth = {username, password}; // { username:'john', password:'mysecret' }
       return User.authenticateBasic(auth)
         .then(user => _authenticate(user))
         .catch(_authError);
