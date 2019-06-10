@@ -18,7 +18,7 @@ module.exports = (capability) => {
         return _authError();
       }
     } catch (e) {
-      _authError();
+      return _authError();
     }
 
 
@@ -47,12 +47,15 @@ module.exports = (capability) => {
         next();
       }
       else {
-        _authError();
+        return _authError();
       }
     }
 
-    function _authError() {
-      next('Invalid User ID/Password');
+    async function _authError() {
+      next({
+        status: 401,
+        message: 'Invalid User ID/Password',
+      });
     }
 
   };
