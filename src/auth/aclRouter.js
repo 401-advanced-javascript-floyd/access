@@ -10,9 +10,10 @@ const oauth = require('./oauth/google.js');
 aclRouter.get('/public-stuff', (req, res, next) => {
   res.status(200).send('ok from public-stuff')
 });
+
 aclRouter.get('/hidden-stuff', auth(), (req, res, next) => {
   console.log('hidden stuff line 14')
-  res.status(200).send('hidden-stuff should only work loggedin')
+  res.status(200).send('hidden-stuff should only work logged in')
 });
 
 aclRouter.get('/something-to-read', auth(), (req, res, next) => {
