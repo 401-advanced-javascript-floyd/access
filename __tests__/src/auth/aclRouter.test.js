@@ -9,6 +9,13 @@ const mockRequest = supergoose.server(server);
 
 beforeAll(async (done) => {
   await supergoose.startDB();
+
+  await mockRequest
+    .post('/signup')
+    .send({ username: 'floyd', password: 'm@s0n' })
+    .expect(200);
+  // new User({...}).save()
+
   done();
 });
 afterAll(supergoose.stopDB);
@@ -30,4 +37,11 @@ describe('make sure access is correct', () => {
       .auth('test', '1234')
       .expect(401);
   });
-})
+
+  it('/hidden-stuff works for valid username/password', () => {
+    return mockRequest
+      .get('/hidden-stuff')
+      .auth('floyd', 'm@s0n')
+      .expect(200);
+  });
+});
