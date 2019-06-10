@@ -34,7 +34,7 @@ describe('Auth Middleware', () => {
   // editor:password: ZWRpdG9yOnBhc3N3b3Jk
   // user:password: dXNlcjpwYXNzd29yZA==
 
-  let errorMessage = 'Invalid User ID/Password';
+  let errorMessage = { status: 401, message: 'Invalid User ID/Password' };
 
   describe('user authentication', () => {
 
