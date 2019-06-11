@@ -21,12 +21,12 @@ users.virtual('acl',{
   ref: 'roles',
   localField: 'role',
   foreignField: 'role',
-  justOne: true
-})
+  justOne: true,
+});
 
 users.pre('findOne', function(){
   this.populate('acl');
-})
+});
 const capabilities = {
   admin: ['create', 'read', 'update', 'delete'],
   editor: ['create', 'read', 'update'],
