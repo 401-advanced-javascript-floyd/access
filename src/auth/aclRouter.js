@@ -16,7 +16,7 @@ aclRouter.get('/hidden-stuff', auth(), (req, res, next) => {
   res.status(200).send('hidden-stuff should only work logged in')
 });
 
-aclRouter.get('/something-to-read', auth(), (req, res, next) => {
+aclRouter.get('/something-to-read', auth('editor'), (req, res, next) => {
   res.status(200).send('something-to-read should only work with read rights')
 });
 

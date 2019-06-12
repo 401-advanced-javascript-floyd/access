@@ -16,15 +16,15 @@ const users = new mongoose.Schema({
   email: { type: String },
   role: { type: String, default: 'user', enum: ['admin', 'editor', 'user'] },
   //role:{type: String, required: true, default:'user', enum['admin', 'editor', 'user']}
-},{toObject: {virtuals: true}, toJSON:{ virtuals: true}});
-users.virtual('acl',{
+}, { toObject: { virtuals: true }, toJSON: { virtuals: true } });
+users.virtual('acl', {
   ref: 'roles',
   localField: 'role',
   foreignField: 'role',
   justOne: true,
 });
 
-users.pre('findOne', function(){
+users.pre('findOne', function () {
   this.populate('acl');
 });
 const capabilities = {
@@ -68,9 +68,14 @@ users.statics.authenticateToken = function (token) {
   try {
     let parsedToken = jwt.verify(token, SECRET);
     (SINGLE_USE_TOKENS) && parsedToken.type !== 'key' && usedTokens.add(token);
+    console.log('PARSED TOKEN', parsedToken);
     let query = { _id: parsedToken.id };
-    return this.findOne(query);
-  } catch (e) { throw new Error('Invalid Token'); }
+    return this.findOne(query)
+      .then(user => {
+        console.log('Found User', user);
+        return user;
+      });
+  } catch (e) { return Promise.reject(e); }
 
 };
 
@@ -103,12 +108,14 @@ users.methods.generateToken = function (type) {
 };
 
 users.methods.can = function (capability) {
-  return capabilities[this.role].includes(capability);
+  let result = capabilities[this.role].includes(capability);
+  console.log('CAN I DO IT', result);
+  return result;
 };
 
 users.methods.generateKey = function () {
   return this.generateToken('key');
 };
 
-module.exports =  mongoose.model('users', users);
+module.exports = mongoose.model('users', users);
 

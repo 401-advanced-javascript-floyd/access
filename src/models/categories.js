@@ -5,11 +5,12 @@ class Categories {
   constructor() {
   }
 
-  getbyId(_id) {
-    return Category.findById(_id, (err, item) => {
-      return item.name;
-    });
+  getAll() {
+    return Category.find();
+  }
 
+  getbyId(_id) {
+    return Category.findById(_id);
   }
   post(record) {
     var mongoCategories = new Category(record);
@@ -17,18 +18,13 @@ class Categories {
 
   }
 
-  put(_id, record) {
-    Category.updateOne(_id, record, () => {
-    });
-    return Category.findById(_id, (err, item) => {
-      return item.name;
-    });
+  async  put(_id, record) {
+    await Category.updateOne(_id, record);
+    return Category.findById(_id);
 
   }
   delete(_id) {
-    return Category.deleteOne(_id, (err, item) => {
-      return item.deletedCount;
-    });
+    return Category.deleteOne(_id);
   }
 
 

@@ -1,6 +1,6 @@
 const supergoose =require('../../supergoose');
-let User = require('../../../src/auth/users-model')
-let Role = require('../../../src/auth/role-model')
+let User = require('../../../src/auth/users-model');
+let Role = require('../../../src/auth/role-model');
 
 
 beforeAll(supergoose.startDB);
